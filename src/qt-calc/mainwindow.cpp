@@ -16,11 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_7, SIGNAL(clicked()), this, SLOT(digits_numbers()));
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(digits_numbers()));
     connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(digits_numbers()));
-    connect(ui->pushButton_sign, SIGNAL(clicked()), this, SLOT(operations()));
-    connect(ui->pushButton_sum, SIGNAL(clicked()), this, SLOT(operations()));
-    connect(ui->pushButton_sub, SIGNAL(clicked()), this, SLOT(operations()));
-    connect(ui->pushButton_mul, SIGNAL(clicked()), this, SLOT(operations()));
-    connect(ui->pushButton_div, SIGNAL(clicked()), this, SLOT(operations()));
+    connect(ui->pushButton_sum, SIGNAL(clicked()), this, SLOT(math_operations()));
+    connect(ui->pushButton_sub, SIGNAL(clicked()), this, SLOT(math_operations()));
+    connect(ui->pushButton_mul, SIGNAL(clicked()), this, SLOT(math_operations()));
+    connect(ui->pushButton_div, SIGNAL(clicked()), this, SLOT(math_operations()));
 }
 
 MainWindow::~MainWindow()
@@ -57,5 +56,21 @@ void MainWindow::on_pushButton_dot_clicked()
 {
     if(!ui->display->text().contains('.'))
         ui->display->setText(ui->display->text() + ".");
+}
+
+void MainWindow::math_operations()
+{
+
+}
+
+void MainWindow::on_pushButton_C_clicked()
+{
+
+}
+
+
+void MainWindow::on_pushButton_eq_clicked()
+{
+
 }
 
