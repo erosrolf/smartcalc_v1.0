@@ -1,17 +1,23 @@
 #ifndef STACK_H
 #define STACK_H
 
-typedef struct Stack_node {
-  char *name;
-  void *data;
-  char *data_type;
-  struct Stack_node *next;
-} Stack_node;
+typedef struct Stack_num {
+  double data;
+  struct Stack_num *next;
+} Stack_num;
 
-Stack_node *push_stack_node(Stack_node *sn);
-Stack_node *pop_stack_node(Stack_node *sn);
-void free_stack_node(Stack_node *sn);
-void set_stack_node_name(Stack_node *sn, char *name);
-void set_stack_node_data(Stack_node *sn, void *data, unsigned int size);
+typedef struct Stack_ch {
+  char data;
+  struct Stack_ch *next;
+} Stack_ch;
+
+Stack_ch *push_stack_ch(Stack_ch *sc);
+Stack_num *push_stack_num(Stack_num *sn);
+Stack_ch *pop_stack_ch(Stack_ch *sc);
+Stack_num *pop_stack_num(Stack_num *sn);
+void add_data_to_stack_num(Stack_num *sn, double data);
+// void add_data_to_stack_ch(Stack_num *sc, char data);
+void free_stack_ch(Stack_ch *sc);
+void free_stack_num(Stack_num *sn);
 
 #endif

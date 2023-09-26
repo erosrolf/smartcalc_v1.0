@@ -3,47 +3,54 @@
 #include <stdlib.h>
 #include <string.h>
 
+enum error { MEM_ERR = 5 };
+
 #ifndef STACK_C
 #define STACK_C
 
-Stack_node *push_stack_node(Stack_node *sn) {
-  Stack_node *t = (Stack_node *)malloc(sizeof(Stack_node));
-  t->name = NULL;
-  t->data = NULL;
+Stack_ch *push_stack_ch(Stack_ch *sc) {
+  Stack_ch *t = (Stack_ch *)malloc(sizeof(Stack_ch));
+  if (!t)
+    exit(MEM_ERR);
+  t->next = sc;
+  return t;
+}
+
+Stack_num *push_stack_num(Stack_num *sn) {
+  Stack_num *t = (Stack_num *)malloc(sizeof(Stack_num));
+  if (!t)
+    exit(MEM_ERR);
   t->next = sn;
   return t;
 }
 
-Stack_node *pop_stack_node(Stack_node *sn) {
-  Stack_node *t = sn->next;
+Stack_ch *pop_stack_ch(Stack_ch *sc) {
+  Stack_ch *t = sc->next;
+  if (!sc)
+    return NULL;
+  free(sc);
+  return t;
+}
 
+Stack_num *pop_stack_num(Stack_num *sn) {
+  Stack_num *t = sn->next;
   if (!sn)
     return NULL;
-  if (sn->name)
-    free(sn->name);
-  if (sn->data)
-    free(sn->data);
   free(sn);
   return t;
 }
 
-void free_stack_node(Stack_node *sn) {
+void add_data_to_stack_num(Stack_num *sn, double data) { sn->data = data; }
+
+// void add_data_to_stack_ch(Stack_num *sc, char data) { sc->data = data; }
+
+void free_stack_num(Stack_num *sn) {
   while (sn)
-    sn = pop_stack_node(sn);
+    sn = pop_stack_num(sn);
 }
 
-void set_stack_node_name(Stack_node *sn, char *name) {
-  if (sn->name)
-    free(sn->name);
-  sn->name = (char *)malloc(strlen(name) + 1);
-  strcpy(sn->name, name);
+void free_stack_ch(Stack_ch *sc) {
+  while (sc)
+    sc = pop_stack_ch(sc);
 }
-
-void set_stack_node_data(Stack_node *sn, void *data, unsigned int size) {
-  if (sn->data)
-    free(sn->data);
-  sn->data = malloc(size);
-  memcpy(sn->data, data, size);
-}
-
 #endif

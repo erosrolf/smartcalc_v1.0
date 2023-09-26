@@ -1,4 +1,4 @@
-TARGET = stacknode
+TARGET = console_calc
 CC = gcc -Wall -Wextra -Werror -std=c11 
 CFLAGS =
 LIBS =
