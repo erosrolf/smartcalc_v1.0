@@ -4,12 +4,31 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum error { OK, ERR, NOT_NUM, NOT_CHAR, MEM_ERR };
+enum error { OK, ERR, NOT_NUM, NOT_OPERAND, MEM_ERR };
 
 #ifndef PARSER_C
 #define PARSER_C
 
 static int is_num(char *s) { return ((*s >= '0') && (*s <= '9')) || *s == '.'; }
+static int is_operand(char *s) {
+  return *s == '-' || *s == '+' || *s == '*' || *s == '/' || *s == '^';
+}
+
+static int str_to_operand(char *str, unsigned int *ch_pointer, char *ch) {
+  if (!is_operand(str))
+    return NOT_OPERAND;
+  else {
+    *ch = *str;
+    ch_pointer++;
+    return OK;
+  }
+}
+void str_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
+  char ch = 0;
+  str_to_operand(str, ch_pointer, &ch);
+  *sc = push_stack_ch(*sc);
+  add_data_to_stack_ch(*sc, ch);
+}
 
 /*
  * если *s не указывает на число, возвращает ошибку NOT_NUM

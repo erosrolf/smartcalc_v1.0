@@ -16,7 +16,7 @@ Stack_num *push_stack_num(Stack_num *sn);
 Stack_ch *pop_stack_ch(Stack_ch *sc);
 Stack_num *pop_stack_num(Stack_num *sn);
 void add_data_to_stack_num(Stack_num *sn, double data);
-// void add_data_to_stack_ch(Stack_num *sc, char data);
+void add_data_to_stack_ch(Stack_ch *sc, char data);
 void free_stack_ch(Stack_ch *sc);
 void free_stack_num(Stack_num *sn);
 

@@ -42,7 +42,7 @@ Stack_num *pop_stack_num(Stack_num *sn) {
 
 void add_data_to_stack_num(Stack_num *sn, double data) { sn->data = data; }
 
-// void add_data_to_stack_ch(Stack_num *sc, char data) { sc->data = data; }
+void add_data_to_stack_ch(Stack_ch *sc, char data) { sc->data = data; }
 
 void free_stack_num(Stack_num *sn) {
   while (sn)
