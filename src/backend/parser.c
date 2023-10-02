@@ -1,5 +1,4 @@
 #include "parser.h"
-#include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,8 +9,8 @@ enum error { OK, ERR, NOT_NUM, NOT_OPERAND, MEM_ERR };
 #define PARSER_C
 
 static int is_num(char *s) { return ((*s >= '0') && (*s <= '9')) || *s == '.'; }
-static int is_operand(char *s) {
-  return *s == '-' || *s == '+' || *s == '*' || *s == '/';
+static int is_ch(char *s) {
+  return *s == '-' || *s == '+' || *s == '*' || *s == '/' || *s == '(';
 }
 
 /*
@@ -20,7 +19,7 @@ static int is_operand(char *s) {
  * после операнда
  */
 static int str_to_operand(char *str, unsigned int *ch_pointer, char *ch) {
-  if (!is_operand(str))
+  if (!is_ch(str))
     return NOT_OPERAND;
   else {
     *ch = *str;
@@ -72,8 +71,10 @@ int str_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn) {
 void parser(char *str, Stack_num **sn, Stack_ch **sc) {
   unsigned int ch_pointer = 0;
   while (str[ch_pointer] != 0x00) {
-    str_to_num_stack(str + ch_pointer, &ch_pointer, sn);
-    str_to_ch_stack(str + ch_pointer, &ch_pointer, sc);
+    if (is_num(str + ch_pointer))
+      str_to_num_stack(str + ch_pointer, &ch_pointer, sn);
+    if (is_ch(str + ch_pointer))
+      str_to_ch_stack(str + ch_pointer, &ch_pointer, sc);
   }
 }
 

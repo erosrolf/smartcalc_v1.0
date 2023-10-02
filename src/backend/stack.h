@@ -19,5 +19,7 @@ void add_data_to_stack_num(Stack_num *sn, double data);
 void add_data_to_stack_ch(Stack_ch *sc, char data);
 void free_stack_ch(Stack_ch *sc);
 void free_stack_num(Stack_num *sn);
+void print_stack_ch(Stack_ch *sc);
+void print_stack_num(Stack_num *sn);
 
 #endif

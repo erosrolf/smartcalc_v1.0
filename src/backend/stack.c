@@ -53,4 +53,18 @@ void free_stack_ch(Stack_ch *sc) {
   while (sc)
     sc = pop_stack_ch(sc);
 }
+
+void print_stack_ch(Stack_ch *sc) {
+  while (sc) {
+    printf("data double = %c\n", sc->data);
+    sc = sc->next;
+  }
+}
+
+void print_stack_num(Stack_num *sn) {
+  while (sn) {
+    printf("data double = %f\n", sn->data);
+    sn = sn->next;
+  }
+}
 #endif
