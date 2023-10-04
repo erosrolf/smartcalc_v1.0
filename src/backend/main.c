@@ -12,8 +12,12 @@ int main() {
     sscanf(buf, "%s", str);
   }
 
-  if (!calculate(str))
-    exit(1);
+  // calculate(str);
+  Stack_num *sn = NULL;
+  Stack_ch *sc = NULL;
+  parser(str, &sn, &sc);
+  print_stack_num(sn);
+  print_stack_ch(sc);
 
   // sn = pop_stack_num(sn);
 

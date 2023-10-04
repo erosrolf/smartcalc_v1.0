@@ -1,5 +1,5 @@
 TARGET = console_calc
-CC = gcc -Wall -Wextra -Werror -std=c11 
+CC = gcc -Wall -Wextra -Werror -g -std=c11
 CFLAGS =
 LIBS =
 

@@ -60,6 +60,8 @@ int calculate(char *str) {
   Stack_num *sn = NULL;
   Stack_ch *sc = NULL;
   parser(str, &sn, &sc);
+  if (!sn)
+    return ERR;
   if (!sn->next)
     return FEW_ARGS;
   if (sc && sc->data == '+')
