@@ -1,5 +1,5 @@
 #include "parser.h"
-#include "err_codes.h"
+#include "return_codes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,7 +7,12 @@
 #ifndef PARSER_C
 #define PARSER_C
 static int is_unary_m(char *s, int ch_pointer) {
-  return ((ch_pointer == 0 || s[-1] == '(') && *s == '-');
+  if (*s != '-')
+    return 0;
+  if (ch_pointer)
+    return s[-1] == '(' || s[-1] == '*' || s[-1] == '/';
+  else
+    return 1;
 }
 
 static int is_num(char *s, int ch_pointer) {
@@ -18,11 +23,26 @@ static int is_ch(char *s, int ch_pointer) {
   if (is_unary_m(s, ch_pointer)) {
     return 0;
   }
-  return *s == '-' || *s == '+' || *s == '*' || *s == '/' || *s == '(';
+  return *s == '-' || *s == '+' || *s == '*' || *s == '/' || *s == '(' ||
+         *s == ')';
+}
+
+static int get_rang(Stack_ch *sc) {
+  int return_value = ERR;
+  if (sc->data == '(')
+    return_value = 1;
+  if (sc->data == '-' || sc->data == '+')
+    return_value = 2;
+  if (sc->data == '/' || sc->data == '*')
+    return_value = 3;
+  if (return_value == '^')
+    return_value = 4;
+  if (return_value == ')')
+    return_value = 5;
+  return return_value;
 }
 
 /*
- * если *str указывает не на символ, возвращает NOT_OPERAND
  * ch_pointer указывает на символ строки, после выполнения на следующий элемент
  * после операнда
  */
@@ -35,6 +55,7 @@ static int str_to_operand(char *str, unsigned int *ch_pointer, char *ch) {
     return OK;
   }
 }
+
 int str_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
   int return_value = OK;
   char ch = 0;
@@ -47,7 +68,6 @@ int str_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
 }
 
 /*
- * если *str не указывает на число, возвращает ошибку NOT_NUM
  * ch_pointer указатель на символ строки *str, после выполнения указывает на
  * первый элемент после числа
  */
@@ -76,13 +96,32 @@ int str_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn) {
   return return_value;
 }
 
+/*
+ * расшифровывает из строки одну лекслему, на которую указывает ch_pointer
+ * закидывает ее в соответствующий стек и возвращает:
+ * 0 - число
+ * 1 - '('
+ * 2 - '+' || '-'
+ * 3 - '*' || '/'
+ * 4 - 'functions'
+ * 5 - ')'
+ * 6 - конец строки
+ * при ошибке возвращает -1
+ * так же возвращающие коды можно посмотреть err_codes.h
+ */
 int parser(char *str, Stack_num **sn, Stack_ch **sc, unsigned int *ch_pointer) {
   int return_value = OK;
   if (str[*ch_pointer] != 0x00) {
     if (is_num(str + *ch_pointer, *ch_pointer)) {
-      return_value = str_to_num_stack(str + *ch_pointer, ch_pointer, sn);
+      if (!str_to_num_stack(str + *ch_pointer, ch_pointer, sn))
+        return_value = 0;
+      else
+        return_value = ERR;
     } else if (is_ch(str + *ch_pointer, *ch_pointer)) {
-      return_value = str_to_ch_stack(str + *ch_pointer, ch_pointer, sc);
+      if (!str_to_ch_stack(str + *ch_pointer, ch_pointer, sc))
+        return_value = get_rang(*sc);
+      else
+        return_value = ERR;
     }
   } else
     return_value = STR_DONE;
