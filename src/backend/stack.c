@@ -56,7 +56,7 @@ void free_stack_ch(Stack_ch *sc) {
 
 void print_stack_ch(Stack_ch *sc) {
   while (sc) {
-    printf("data double = %c\n", sc->data);
+    printf("data char = %c\n", sc->data);
     sc = sc->next;
   }
 }

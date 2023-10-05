@@ -1,8 +1,8 @@
 #include "calculate.h"
+#include "err_codes.h"
 #include <math.h>
 #include <stdio.h>
-
-enum error { OK, ERR, FEW_ARGS, DIV_BY_ZERO };
+#include <stdlib.h>
 
 #ifndef CALCULATE_C
 #define CALCULATE_C
@@ -55,11 +55,8 @@ static int calc_div(Stack_num **sn, Stack_ch **sc) {
   return 0;
 }
 
-int calculate(char *str) {
+int calculate(Stack_num *sn, Stack_ch *sc) {
   int return_value = OK;
-  Stack_num *sn = NULL;
-  Stack_ch *sc = NULL;
-  parser(str, &sn, &sc);
   if (!sn->next)
     return FEW_ARGS;
   if (sc && sc->data == '+')
@@ -74,9 +71,27 @@ int calculate(char *str) {
     else
       return_value = calc_div(&sn, &sc);
   }
+  return return_value;
+}
+
+int main() {
+  int return_value = 0;
+  char buf[256];
+  unsigned int ch_pointer = 0;
+  Stack_num *sn = NULL;
+  Stack_ch *sc = NULL;
+  char *str = (char *)malloc(256);
+  if (fgets(buf, 255, stdin) != NULL) {
+    sscanf(buf, "%s", str);
+  }
+  while (return_value != STR_DONE) {
+    return_value = parser(str, &sn, &sc, &ch_pointer);
+    printf("parser return_value = %d\n", return_value);
+  }
+  printf("\n");
   print_stack_num(sn);
   print_stack_ch(sc);
-  return return_value;
+  return 0;
 }
 
 #endif
