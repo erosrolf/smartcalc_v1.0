@@ -55,43 +55,27 @@ static int calc_div(Stack_num **sn, Stack_ch **sc) {
   return 0;
 }
 
-int calculate(Stack_num *sn, Stack_ch *sc) {
+int calc(Stack_num **sn, Stack_ch **sc) {
   int return_value = OK;
-  if (!sn->next)
+  Stack_num *sn_tmp = *sn;
+  Stack_ch *sc_tmp = *sc;
+  if (!sn_tmp->next)
     return FEW_ARGS;
-  if (sc && sc->data == '+')
-    return_value = calc_add(&sn, &sc);
-  if (sc && sc->data == '-')
-    return_value = calc_sub(&sn, &sc);
-  if (sc && sc->data == '*')
-    return_value = calc_mul(&sn, &sc);
-  if (sc && sc->data == '/') {
-    if (sn->data == 0)
+  if (sc_tmp && sc_tmp->data == '+')
+    return_value = calc_add(&sn_tmp, &sc_tmp);
+  if (sc_tmp && sc_tmp->data == '-')
+    return_value = calc_sub(&sn_tmp, &sc_tmp);
+  if (sc_tmp && sc_tmp->data == '*')
+    return_value = calc_mul(&sn_tmp, &sc_tmp);
+  if (sc_tmp && sc_tmp->data == '/') {
+    if (sn_tmp->data == 0)
       return_value = DIV_BY_ZERO;
     else
-      return_value = calc_div(&sn, &sc);
+      return_value = calc_div(&sn_tmp, &sc_tmp);
   }
+  *sn = sn_tmp;
+  *sc = sc_tmp;
   return return_value;
-}
-
-int main() {
-  int return_value = 0;
-  char buf[256];
-  unsigned int ch_pointer = 0;
-  Stack_num *sn = NULL;
-  Stack_ch *sc = NULL;
-  char *str = (char *)malloc(256);
-  if (fgets(buf, 255, stdin) != NULL) {
-    sscanf(buf, "%s", str);
-  }
-  while (return_value != STR_DONE) {
-    return_value = parser(str, &sn, &sc, &ch_pointer);
-    printf("parser return_value = %d\n", return_value);
-  }
-  printf("\n");
-  print_stack_num(sn);
-  print_stack_ch(sc);
-  return 0;
 }
 
 #endif

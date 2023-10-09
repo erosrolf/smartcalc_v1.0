@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 Suite *test_parser();
+Suite *test_calc();
 
 void run_test(Suite *s, int *fail);
 

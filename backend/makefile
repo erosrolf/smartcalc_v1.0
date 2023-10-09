@@ -5,24 +5,23 @@ TST_LIBS = $(shell pkg-config --libs check)
 
 PREF_SRC = ./src/
 PREF_OBJ = ./obj/
-PREF_LIB = ./lib/
 PREF_TEST = ./tests/
 
 SRCS = $(wildcard $(PREF_SRC)*.c)
 OBJS = $(patsubst $(PREF_SRC)%.c, $(PREF_OBJ)%.o, $(SRCS))
 
 $(TARGET).a: $(OBJS)
-	ar rcs $(PREF_LIB)$(TARGET).a $(OBJS)
+	ar rcs $(TARGET).a $(OBJS)
 
 $(PREF_OBJ)%.o: $(PREF_SRC)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(TARGET).a
-	$(CC) -g $(PREF_TEST)*.c $(PREF_LIB)$(TARGET).a $(TST_LIBS) -o $(PREF_TEST)test
-	./tests/test
+	$(CC) -g $(PREF_TEST)*.c $(TARGET).a $(TST_LIBS) -o test
+	./test
 
 clean:
-	rm $(PREF_LIB)$(TARGET).a $(PREF_OBJ)*.o $(PREF_TEST)*.gcno
+	rm $(TARGET).a $(PREF_OBJ)*.o *.gcno
 
 # CC = gcc -Wall -Werror -Wextra -std=c11
 # PROJECT = s21_matrix

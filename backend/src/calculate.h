@@ -4,6 +4,6 @@
 #ifndef CALCULATE_H
 #define CALCULATE_H
 
-int calculate(Stack_num *sn, Stack_ch *sc);
+int calc(Stack_num **sn, Stack_ch **sc);
 
 #endif
