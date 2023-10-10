@@ -5,5 +5,6 @@
 #define CALCULATE_H
 
 int calc(Stack_num **sn, Stack_ch **sc);
+int str_calc(char *str);
 
 #endif

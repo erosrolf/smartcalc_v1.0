@@ -61,13 +61,13 @@ int calc(Stack_num **sn, Stack_ch **sc) {
   Stack_ch *sc_tmp = *sc;
   if (!sn_tmp->next)
     return FEW_ARGS;
-  if (sc_tmp && sc_tmp->data == '+')
+  else if (sc_tmp && sc_tmp->data == '+')
     return_value = calc_add(&sn_tmp, &sc_tmp);
-  if (sc_tmp && sc_tmp->data == '-')
+  else if (sc_tmp && sc_tmp->data == '-')
     return_value = calc_sub(&sn_tmp, &sc_tmp);
-  if (sc_tmp && sc_tmp->data == '*')
+  else if (sc_tmp && sc_tmp->data == '*')
     return_value = calc_mul(&sn_tmp, &sc_tmp);
-  if (sc_tmp && sc_tmp->data == '/') {
+  else if (sc_tmp && sc_tmp->data == '/') {
     if (sn_tmp->data == 0)
       return_value = DIV_BY_ZERO;
     else
@@ -76,6 +76,25 @@ int calc(Stack_num **sn, Stack_ch **sc) {
   *sn = sn_tmp;
   *sc = sc_tmp;
   return return_value;
+}
+
+int str_calc(char *str) {
+  Stack_num *sn = NULL;
+  Stack_ch *sc = NULL;
+  unsigned int n = 0;
+  int is_operand = 0;
+  printf("str = %s\n", str);
+  while (str[n]) {
+    is_operand = parser(str, &sn, &sc, &n);
+    if (is_operand && sc->next && (get_rang(sc) <= get_rang(sc->next))) {
+      calc(&sn, &sc);
+    }
+  }
+  while (sc)
+    calc(&sn, &sc);
+  print_stack_num(sn);
+  print_stack_ch(sc);
+  return 0;
 }
 
 #endif

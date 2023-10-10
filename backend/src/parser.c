@@ -27,7 +27,7 @@ static int is_ch(char *s, int ch_pointer) {
          *s == ')';
 }
 
-static int get_rang(Stack_ch *sc) {
+int get_rang(Stack_ch *sc) {
   int return_value = ERR;
   if (sc->data == '(')
     return_value = 1;

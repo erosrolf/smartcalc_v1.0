@@ -7,6 +7,8 @@ START_TEST(calc_test_01) {
   sn = push_stack_num(sn);
   add_data_to_stack_num(sn, 2.0);
   sc = push_stack_ch(sc);
+  add_data_to_stack_ch(sc, '-');
+  sc = push_stack_ch(sc);
   add_data_to_stack_ch(sc, '+');
   sn = push_stack_num(sn);
   add_data_to_stack_num(sn, 3.1);
@@ -24,6 +26,8 @@ START_TEST(calc_test_02) {
   int return_value = 0;
   sn = push_stack_num(sn);
   add_data_to_stack_num(sn, 2.0);
+  sc = push_stack_ch(sc);
+  add_data_to_stack_ch(sc, '+');
   sc = push_stack_ch(sc);
   add_data_to_stack_ch(sc, '-');
   sn = push_stack_num(sn);
