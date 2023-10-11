@@ -21,7 +21,7 @@ test: clean $(TARGET).a
 	./test
 
 clean:
-	rm $(TARGET).a $(PREF_OBJ)*.o test
+	rm -rf $(TARGET).a $(PREF_OBJ)*.o test
 
 # CC = gcc -Wall -Werror -Wextra -std=c11
 # PROJECT = s21_matrix

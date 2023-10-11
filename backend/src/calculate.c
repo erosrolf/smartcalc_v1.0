@@ -92,7 +92,6 @@ int str_calc(char *str, double *res) {
   Stack_ch *sc = NULL;
   unsigned int n = 0;
   int is_operand = 0;
-  // printf("str = %s\n", str);
   while (str[n] && return_value == OK) {
     is_operand = parser(str, &sn, &sc, &n);
     if (is_operand == 5)
