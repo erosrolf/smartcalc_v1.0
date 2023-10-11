@@ -75,13 +75,13 @@ static int str_to_num(char *str, unsigned int *ch_pointer, double *d) {
   if (!is_num(str, *ch_pointer))
     return ERR;
   int size = 0;
-  char *buf = (char *)malloc(256);
-  if (!buf)
-    exit(MEM_ERR);
   while (is_num(str + size, size))
     ++size;
+  char *buf = (char *)malloc(sizeof(char) * size + 1);
+  if (!buf)
+    exit(MEM_ERR);
   memcpy(buf, str, size);
-  buf[size + 1] = 0x00;
+  buf[size] = 0x00;
   *d = atof(buf);
   free(buf);
   *ch_pointer += size;

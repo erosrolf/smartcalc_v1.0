@@ -3,7 +3,9 @@
 START_TEST(str_calc_test_01) {
   char str[10];
   sprintf(str, "2-2+2");
-  str_calc(str);
+  double res = 0;
+  str_calc(str, &res);
+  ck_assert_double_eq_tol(res, 2, 7);
 }
 END_TEST
 

@@ -78,23 +78,37 @@ int calc(Stack_num **sn, Stack_ch **sc) {
   return return_value;
 }
 
-int str_calc(char *str) {
+int calc_to_open_br(Stack_num **sn, Stack_ch **sc) {
+  int return_value = OK;
+  while (get_rang(*sc) != OPEN_BR && return_value == OK) {
+    return_value = calc(sn, sc);
+  }
+  return return_value;
+}
+
+int str_calc(char *str, double *res) {
+  int return_value = OK;
   Stack_num *sn = NULL;
   Stack_ch *sc = NULL;
   unsigned int n = 0;
   int is_operand = 0;
-  printf("str = %s\n", str);
-  while (str[n]) {
+  // printf("str = %s\n", str);
+  while (str[n] && return_value == OK) {
     is_operand = parser(str, &sn, &sc, &n);
-    if (is_operand && sc->next && (get_rang(sc) <= get_rang(sc->next))) {
-      calc(&sn, &sc);
+    if (is_operand == 5)
+      return_value = calc_to_open_br(&sn, &sc);
+    else if (is_operand && sc->next && (get_rang(sc) <= get_rang(sc->next))) {
+      return_value = calc(&sn, &sc);
     }
   }
-  while (sc)
-    calc(&sn, &sc);
-  print_stack_num(sn);
-  print_stack_ch(sc);
-  return 0;
+  while (sc && return_value == OK)
+    return_value = calc(&sn, &sc);
+  // print_stack_num(sn);
+  // print_stack_ch(sc);
+  *res = sn->data;
+  free_stack_ch(sc);
+  free_stack_num(sn);
+  return return_value;
 }
 
 #endif

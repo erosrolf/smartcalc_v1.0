@@ -16,12 +16,12 @@ $(TARGET).a: $(OBJS)
 $(PREF_OBJ)%.o: $(PREF_SRC)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-test: $(TARGET).a
+test: clean $(TARGET).a
 	$(CC) -g $(PREF_TEST)*.c $(TARGET).a $(TST_LIBS) -o test
 	./test
 
 clean:
-	rm $(TARGET).a $(PREF_OBJ)*.o *.gcno
+	rm $(TARGET).a $(PREF_OBJ)*.o test
 
 # CC = gcc -Wall -Werror -Wextra -std=c11
 # PROJECT = s21_matrix

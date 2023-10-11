@@ -5,9 +5,9 @@ START_TEST(parser_test_01) {
   Stack_ch *sc = NULL;
   int return_value = 0;
   unsigned int ch_pointer = 2;
-  char str[20] = "2(-2.12345+20";
+  char str[15] = "2(-2.12345";
   return_value = parser(str, &sn, &sc, &ch_pointer);
-  ck_assert_int_eq(return_value, 0);
+  ck_assert_int_eq(return_value, NUM);
   ck_assert_double_eq(sn->data, -2.12345);
   free_stack_num(sn);
   free_stack_ch(sc);
@@ -23,6 +23,8 @@ START_TEST(parser_test_02) {
   return_value = parser(str, &sn, &sc, &ch_pointer);
   ck_assert_int_eq(return_value, LOW_RANG);
   ck_assert_int_eq(sc->data, '-');
+  free_stack_num(sn);
+  free_stack_ch(sc);
 }
 END_TEST
 
@@ -35,6 +37,8 @@ START_TEST(parser_test_03) {
   return_value = parser(str, &sn, &sc, &ch_pointer);
   ck_assert_int_eq(return_value, MID_RANG);
   ck_assert_int_eq(sc->data, '*');
+  free_stack_num(sn);
+  free_stack_ch(sc);
 }
 END_TEST
 
