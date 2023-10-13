@@ -6,6 +6,7 @@
 
 #ifndef PARSER_C
 #define PARSER_C
+
 static int is_unary_m(char *s, int ch_pointer) {
   if (*s != '-')
     return 0;
@@ -15,11 +16,11 @@ static int is_unary_m(char *s, int ch_pointer) {
     return 1;
 }
 
-static int is_num(char *s, int ch_pointer) {
+int is_num(char *s, int ch_pointer) {
   return ((*s >= '0') && (*s <= '9')) || *s == '.' || is_unary_m(s, ch_pointer);
 }
 
-static int is_ch(char *s, int ch_pointer) {
+int is_ch(char *s, int ch_pointer) {
   if (is_unary_m(s, ch_pointer)) {
     return 0;
   }
@@ -27,18 +28,19 @@ static int is_ch(char *s, int ch_pointer) {
          *s == ')';
 }
 
-int get_rang(Stack_ch *sc) {
-  int return_value = ERR;
-  if (sc->data == '(')
-    return_value = 1;
-  if (sc->data == '-' || sc->data == '+')
-    return_value = 2;
-  if (sc->data == '/' || sc->data == '*')
-    return_value = 3;
+// возвращает преоритет операции
+int get_rang(char oper) {
+  int return_value = NUM;
+  if (oper == '(')
+    return_value = OPEN_BR;
+  if (oper == '-' || oper == '+')
+    return_value = LOW_RANG;
+  if (oper == '/' || oper == '*')
+    return_value = MID_RANG;
   if (return_value == '^')
-    return_value = 4;
+    return_value = TOP_RANG;
   if (return_value == ')')
-    return_value = 5;
+    return_value = CLOSE_BR;
   return return_value;
 }
 
@@ -52,15 +54,15 @@ static int str_to_operand(char *str, unsigned int *ch_pointer, char *ch) {
   else {
     *ch = *str;
     *ch_pointer += 1;
-    return OK;
+    return get_rang(*str);
   }
 }
 
-int str_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
+int operand_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
   int return_value = OK;
   char ch = 0;
   return_value = str_to_operand(str, ch_pointer, &ch);
-  if (return_value == OK) {
+  if (return_value != ERR) {
     *sc = push_stack_ch(*sc);
     add_data_to_stack_ch(*sc, ch);
   }
@@ -82,13 +84,14 @@ static int str_to_num(char *str, unsigned int *ch_pointer, double *d) {
     exit(MEM_ERR);
   memcpy(buf, str, size);
   buf[size] = 0x00;
-  *d = atof(buf);
+  // *d = atof(buf);
+  *d = strtod(str, &str);
   free(buf);
   *ch_pointer += size;
-  return OK;
+  return NUM;
 }
 
-int str_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn) {
+int num_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn) {
   double d = 0;
   int return_value = str_to_num(str, ch_pointer, &d);
   *sn = push_stack_num(*sn);
@@ -98,33 +101,20 @@ int str_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn) {
 
 /*
  * расшифровывает из строки одну лекслему, на которую указывает ch_pointer
- * закидывает ее в соответствующий стек и возвращает:
- * 0 - число
- * 1 - '('
- * 2 - '+' || '-'
- * 3 - '*' || '/'
- * 4 - 'functions'
- * 5 - ')'
- * 6 - конец строки
+ * закидывает ее в соответствующий стек и возвращает: get_rang(char oper);
  * при ошибке возвращает -1
- * так же возвращающие коды можно посмотреть err_codes.h
+ * возвращающие коды можно посмотреть return_codes.h
  */
-int parser(char *str, Stack_num **sn, Stack_ch **sc, unsigned int *ch_pointer) {
+int token_parsing(char *str, Stack_num **sn, Stack_ch **sc,
+                  unsigned int *ch_pointer) {
+  if (str[*ch_pointer] == 0x00)
+    return STR_DONE;
   int return_value = OK;
-  if (str[*ch_pointer] != 0x00) {
-    if (is_num(str + *ch_pointer, *ch_pointer)) {
-      if (!str_to_num_stack(str + *ch_pointer, ch_pointer, sn))
-        return_value = 0;
-      else
-        return_value = ERR;
-    } else if (is_ch(str + *ch_pointer, *ch_pointer)) {
-      if (!str_to_ch_stack(str + *ch_pointer, ch_pointer, sc))
-        return_value = get_rang(*sc);
-      else
-        return_value = ERR;
-    }
-  } else
-    return_value = STR_DONE;
+  if (is_num(str + *ch_pointer, *ch_pointer)) {
+    return_value = num_to_num_stack(str + *ch_pointer, ch_pointer, sn);
+  } else if (is_ch(str + *ch_pointer, *ch_pointer)) {
+    return_value = operand_to_ch_stack(str + *ch_pointer, ch_pointer, sc);
+  }
   return return_value;
 }
 

@@ -9,8 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Suite *test_parser();
-Suite *test_calc();
+Suite *test_token_parsing();
+Suite *test_math_operation();
 Suite *test_str_calc();
 
 void run_test(Suite *s, int *fail);

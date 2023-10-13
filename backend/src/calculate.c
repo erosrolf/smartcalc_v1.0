@@ -7,83 +7,42 @@
 #ifndef CALCULATE_C
 #define CALCULATE_C
 
-static int calc_add(Stack_num **sn, Stack_ch **sc) {
-  if (*sc == NULL)
-    return ERR;
-  Stack_num *num_tmp = *sn;
-  double res = 0;
-  res = num_tmp->next->data + num_tmp->data;
-  *sn = pop_stack_num(*sn);
-  *sc = pop_stack_ch(*sc);
-  add_data_to_stack_num(*sn, res);
-  return 0;
-}
-
-static int calc_sub(Stack_num **sn, Stack_ch **sc) {
-  if (*sc == NULL)
-    return ERR;
-  Stack_num *num_tmp = *sn;
-  double res = 0;
-  res = num_tmp->next->data - num_tmp->data;
-  *sn = pop_stack_num(*sn);
-  *sc = pop_stack_ch(*sc);
-  add_data_to_stack_num(*sn, res);
-  return 0;
-}
-
-static int calc_mul(Stack_num **sn, Stack_ch **sc) {
-  if (*sc == NULL)
-    return ERR;
-  Stack_num *num_tmp = *sn;
-  double res = 0;
-  res = num_tmp->next->data * num_tmp->data;
-  *sn = pop_stack_num(*sn);
-  *sc = pop_stack_ch(*sc);
-  add_data_to_stack_num(*sn, res);
-  return 0;
-}
-
-static int calc_div(Stack_num **sn, Stack_ch **sc) {
-  if (*sc == NULL)
-    return ERR;
-  Stack_num *num_tmp = *sn;
-  double res = 0;
-  res = num_tmp->next->data / num_tmp->data;
-  *sn = pop_stack_num(*sn);
-  *sc = pop_stack_ch(*sc);
-  add_data_to_stack_num(*sn, res);
-  return 0;
-}
-
-int calc(Stack_num **sn, Stack_ch **sc) {
-  int return_value = OK;
-  Stack_num *sn_tmp = *sn;
-  Stack_ch *sc_tmp = *sc;
-  if (!sn_tmp->next)
-    return FEW_ARGS;
-  else if (sc_tmp && sc_tmp->data == '+')
-    return_value = calc_add(&sn_tmp, &sc_tmp);
-  else if (sc_tmp && sc_tmp->data == '-')
-    return_value = calc_sub(&sn_tmp, &sc_tmp);
-  else if (sc_tmp && sc_tmp->data == '*')
-    return_value = calc_mul(&sn_tmp, &sc_tmp);
-  else if (sc_tmp && sc_tmp->data == '/') {
-    if (sn_tmp->data == 0)
-      return_value = DIV_BY_ZERO;
-    else
-      return_value = calc_div(&sn_tmp, &sc_tmp);
-  }
-  *sn = sn_tmp;
-  *sc = sc_tmp;
+static int is_math_oper(Stack_ch *sc) {
+  if (sc == NULL)
+    return 0;
+  int return_value = 0;
+  if (sc->data == '+')
+    return_value = '+';
+  else if (sc->data == '-')
+    return_value = '-';
+  else if (sc->data == '*')
+    return_value = '*';
+  else if (sc->data == '/')
+    return_value = '/';
   return return_value;
 }
 
-int calc_to_open_br(Stack_num **sn, Stack_ch **sc) {
-  int return_value = OK;
-  while (get_rang(*sc) != OPEN_BR && return_value == OK) {
-    return_value = calc(sn, sc);
+int math_operation(Stack_num **sn, Stack_ch **sc) {
+  Stack_num *num_tmp = *sn;
+  if (is_math_oper(*sc) == '/' && num_tmp->data == 0) {
+    return ERR;
   }
-  return return_value;
+  if (num_tmp->next) {
+    double res = 0;
+    if (is_math_oper(*sc) == '+')
+      res = num_tmp->next->data + num_tmp->data;
+    else if (is_math_oper(*sc) == '-')
+      res = num_tmp->next->data - num_tmp->data;
+    else if (is_math_oper(*sc) == '*')
+      res = num_tmp->next->data * num_tmp->data;
+    else if (is_math_oper(*sc) == '/')
+      if (num_tmp->data != 0)
+        res = num_tmp->next->data / num_tmp->data;
+    *sn = pop_stack_num(*sn);
+    *sc = pop_stack_ch(*sc);
+    add_data_to_stack_num(*sn, res);
+  }
+  return OK;
 }
 
 int str_calc(char *str, double *res) {
@@ -91,19 +50,27 @@ int str_calc(char *str, double *res) {
   Stack_num *sn = NULL;
   Stack_ch *sc = NULL;
   unsigned int n = 0;
-  int is_operand = 0;
-  while (str[n] && return_value == OK) {
-    is_operand = parser(str, &sn, &sc, &n);
-    if (is_operand == 5)
-      return_value = calc_to_open_br(&sn, &sc);
-    else if (is_operand && sc->next && (get_rang(sc) <= get_rang(sc->next))) {
-      return_value = calc(&sn, &sc);
+  int err = 0;
+  while (str[n] && return_value == OK && err < 100) {
+    if (str[n] == ')') {
+      n++;
+      while (sc->data != '(' && return_value == OK)
+        return_value = math_operation(&sn, &sc);
+      if (return_value == OK)
+        sc = pop_stack_ch(sc);
+    } else if (sc && str[n] != '(' && get_rang(str[n]) <= get_rang(sc->data)) {
+      return_value = math_operation(&sn, &sc);
+    } else {
+      token_parsing(str, &sn, &sc, &n);
+      printf("n = %d\n", n);
     }
+    err++;
   }
-  while (sc && return_value == OK)
-    return_value = calc(&sn, &sc);
-  // print_stack_num(sn);
-  // print_stack_ch(sc);
+  while (sc != 0 && return_value == OK) {
+    return_value = math_operation(&sn, &sc);
+  }
+  print_stack_ch(sc);
+  print_stack_num(sn);
   *res = sn->data;
   free_stack_ch(sc);
   free_stack_num(sn);
