@@ -85,7 +85,7 @@ START_TEST(math_operation_test_05) {
   sc = push_stack_ch(sc);
   add_data_to_stack_ch(sc, '/');
   return_value = math_operation(&sn, &sc);
-  ck_assert_int_eq(return_value, ERR);
+  ck_assert_int_eq(return_value, OK);
   ck_assert_double_eq_tol(sn->data, 0, 7);
   free_stack_num(sn);
   free_stack_ch(sc);

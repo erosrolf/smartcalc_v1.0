@@ -22,12 +22,12 @@
 
 START_TEST(str_calc_test_03) {
   char str[15];
-  sprintf(str, "(2)");
+  sprintf(str, "-5*3");
   printf("str = %s\n", str);
   double res = 0;
   int return_value = str_calc(str, &res);
   printf("return_value = %d\n", return_value);
-  ck_assert_double_eq_tol(res, 25, 0.7);
+  ck_assert_double_eq_tol(res, -15, 0.7);
 }
 END_TEST
 

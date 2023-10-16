@@ -49,6 +49,7 @@ int str_calc(char *str, double *res) {
   int return_value = OK;
   Stack_num *sn = NULL;
   Stack_ch *sc = NULL;
+  int is_unary = 1;
   unsigned int n = 0;
   int err = 0;
   while (str[n] && return_value == OK && err < 100) {
@@ -61,7 +62,7 @@ int str_calc(char *str, double *res) {
     } else if (sc && str[n] != '(' && get_rang(str[n]) <= get_rang(sc->data)) {
       return_value = math_operation(&sn, &sc);
     } else {
-      token_parsing(str, &sn, &sc, &n);
+      token_parsing(str, &sn, &sc, &n, &is_unary);
       printf("n = %d\n", n);
     }
     err++;
