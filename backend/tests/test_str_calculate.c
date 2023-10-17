@@ -28,7 +28,25 @@ START_TEST(str_calc_test_03) {
 }
 END_TEST
 
-// START_TEST(str_calc_test_04) {
+START_TEST(str_calc_test_04) {
+  char str[] = "1-(2+2)/2";
+  double res = 0;
+  int return_value = str_calc(str, &res);
+  ck_assert_double_eq_tol(res, -1, 0.7);
+  ck_assert_int_eq(return_value, OK);
+}
+END_TEST
+
+START_TEST(str_calc_test_05) {
+  char str[] = "3+(7-5/(2+3))*(7-2)";
+  double res = 0;
+  int return_value = str_calc(str, &res);
+  ck_assert_double_eq_tol(res, 33, 0.7);
+  ck_assert_int_eq(return_value, OK);
+}
+END_TEST
+
+// START_TEST(str_calc_test_06) {
 //   char str[] = "-(2+2)";
 //   double res = 0;
 //   int return_value = str_calc(str, &res);
@@ -37,11 +55,20 @@ END_TEST
 // }
 // END_TEST
 
-START_TEST(str_calc_test_05) {
-  char str[] = "3+(7-5/(2+3))*(7-2)";
+START_TEST(str_calc_test_07) {
+  char str[] = "(8*8)^(1/2)";
   double res = 0;
   int return_value = str_calc(str, &res);
-  ck_assert_double_eq_tol(res, 33, 0.7);
+  ck_assert_double_eq_tol(res, 8, 0.7);
+  ck_assert_int_eq(return_value, OK);
+}
+END_TEST
+
+START_TEST(str_calc_test_08) {
+  char str[] = "sin(11)";
+  double res = 0;
+  int return_value = str_calc(str, &res);
+  ck_assert_double_eq_tol(res, -0.999990, 0.7);
   ck_assert_int_eq(return_value, OK);
 }
 END_TEST
@@ -53,8 +80,11 @@ Suite *test_str_calc() {
   tcase_add_test(tc_str_calc, str_calc_test_01);
   tcase_add_test(tc_str_calc, str_calc_test_02);
   tcase_add_test(tc_str_calc, str_calc_test_03);
-  // tcase_add_test(tc_str_calc, str_calc_test_04);
+  tcase_add_test(tc_str_calc, str_calc_test_04);
   tcase_add_test(tc_str_calc, str_calc_test_05);
+  // tcase_add_test(tc_str_calc, str_calc_test_06);
+  tcase_add_test(tc_str_calc, str_calc_test_07);
+  tcase_add_test(tc_str_calc, str_calc_test_08);
   suite_add_tcase(suite, tc_str_calc);
 
   return suite;

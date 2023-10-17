@@ -1,5 +1,6 @@
 #include "parser.h"
 #include "return_codes.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,11 +8,46 @@
 #ifndef PARSER_C
 #define PARSER_C
 
-int is_num(char *s) { return ((*s >= '0') && (*s <= '9')) || *s == '.'; }
+static int is_num(char *s) { return ((*s >= '0') && (*s <= '9')) || *s == '.'; }
 
-int is_ch(char *s) {
+static int is_ch(char *s) {
   return *s == '-' || *s == '+' || *s == '*' || *s == '/' || *s == '(' ||
-         *s == ')';
+         *s == ')' || *s == '^';
+}
+
+static int is_func(char *s) {
+  return *s == 'c' || *s == 's' || *s == 't' || *s == 'a' || *s == 'l';
+}
+
+int func_to_ch(char *s, unsigned int *ch_pointer) {
+  int return_value = 0;
+  if (*s == 'c' || *s == 's' || *s == 't') {
+    if (s[1] == 'o' && s[2] == 's') {
+      *ch_pointer += 3;
+      return_value = COS;
+    } else if (s[1] == 'i' && s[2] == 'n') {
+      *ch_pointer += 3;
+      return_value = SIN;
+    } else if (s[1] == 'a' && s[2] == 'n') {
+      *ch_pointer += 3;
+      return_value = TAN;
+    } else if (s[1] == 'q' && s[2] == 'r' && s[3] == 't') {
+      *ch_pointer += 4;
+      return_value = SQRT;
+    }
+  } else if (*s == 'a') {
+    if (s[1] == 'c') {
+      *ch_pointer += 4;
+      return_value = ACOS;
+    } else if (s[1] == 's') {
+      *ch_pointer += 4;
+      return_value = ASIN;
+    } else if (s[1] == 't') {
+      *ch_pointer += 4;
+      return_value = ATAN;
+    }
+  }
+  return return_value;
 }
 
 // возвращает преоритет операции
@@ -23,7 +59,9 @@ int get_rang(char oper) {
     return_value = LOW_RANG;
   if (oper == '/' || oper == '*')
     return_value = MID_RANG;
-  if (return_value == '^')
+  if (oper == '^' || oper == '%')
+    return_value = HIGH_RANG;
+  if (is_func(&oper))
     return_value = TOP_RANG;
   if (return_value == ')')
     return_value = CLOSE_BR;
@@ -35,13 +73,16 @@ int get_rang(char oper) {
  * после операнда
  */
 static int str_to_operand(char *str, unsigned int *ch_pointer, char *ch) {
-  if (!is_ch(str))
-    return ERR;
-  else {
+  int return_value = ERR;
+  if (is_ch(str)) {
     *ch = *str;
     *ch_pointer += 1;
-    return get_rang(*str);
+    return_value = get_rang(*str);
+  } else if (is_func(str)) {
+    *ch = func_to_ch(str, ch_pointer);
+    return_value = TOP_RANG;
   }
+  return return_value;
 }
 
 int operand_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
@@ -95,7 +136,7 @@ int token_parsing(char *str, Stack_num **sn, Stack_ch **sc,
   if (is_num(str + *ch_pointer) || (str[*ch_pointer] == '-' && *is_unary)) {
     return_value =
         num_to_num_stack(str + *ch_pointer, ch_pointer, sn, is_unary);
-  } else if (is_ch(str + *ch_pointer)) {
+  } else if (is_ch(str + *ch_pointer) || is_func(str + *ch_pointer)) {
     if (str[*ch_pointer] == '(')
       *is_unary = 1;
     return_value = operand_to_ch_stack(str + *ch_pointer, ch_pointer, sc);

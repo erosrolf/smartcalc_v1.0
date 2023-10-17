@@ -7,42 +7,52 @@
 #ifndef CALCULATE_C
 #define CALCULATE_C
 
-static int is_math_oper(Stack_ch *sc) {
-  if (sc == NULL)
-    return 0;
-  int return_value = 0;
-  if (sc->data == '+')
-    return_value = '+';
-  else if (sc->data == '-')
-    return_value = '-';
-  else if (sc->data == '*')
-    return_value = '*';
-  else if (sc->data == '/')
-    return_value = '/';
-  return return_value;
-}
-
 int math_operation(Stack_num **sn, Stack_ch **sc) {
+  int return_value = OK;
+  double res = 0;
   Stack_num *num_tmp = *sn;
-  if (is_math_oper(*sc) == '/' && num_tmp->data == 0) {
-    return ERR;
-  }
-  if (num_tmp->next) {
-    double res = 0;
-    if (is_math_oper(*sc) == '+')
+  Stack_ch *operation = *sc;
+  if (num_tmp->next) { // если 2 операнда, смотрим на математические операции
+    if (operation->data == '+') {
       res = num_tmp->next->data + num_tmp->data;
-    else if (is_math_oper(*sc) == '-')
+    } else if (operation->data == '-') {
       res = num_tmp->next->data - num_tmp->data;
-    else if (is_math_oper(*sc) == '*')
+    } else if (operation->data == '*') {
       res = num_tmp->next->data * num_tmp->data;
-    else if (is_math_oper(*sc) == '/')
-      if (num_tmp->data != 0)
+    } else if (operation->data == '/') {
+      if (num_tmp->data == 0)
+        return_value = DIV_BY_ZERO;
+      else
         res = num_tmp->next->data / num_tmp->data;
-    *sn = pop_stack_num(*sn);
+    } else if (operation->data == '^') {
+      res = pow(num_tmp->next->data, num_tmp->data);
+    }
+    *sn = pop_stack_num(*sn); // иначе смотрим тригонометрические функции
+  } else if (operation->data == SIN) {
+    res = sin(num_tmp->data);
+  } else if (operation->data == COS) {
+    res = cos(num_tmp->data);
+  } else if (operation->data == TAN) {
+    res = tan(num_tmp->data);
+  } else if (operation->data == ACOS) {
+    res = acos(num_tmp->data);
+  } else if (operation->data == ASIN) {
+    res = asin(num_tmp->data);
+  } else if (operation->data == ATAN) {
+    res = atan(num_tmp->data);
+  } else if (operation->data == SQRT) {
+    res = sqrt(num_tmp->data);
+  } else if (operation->data == LN) {
+    res = log(num_tmp->data);
+  } else if (operation->data == LOG) {
+    res = log10(num_tmp->data);
+  } else
+    return_value = ERR;
+  if (return_value == OK) {
     *sc = pop_stack_ch(*sc);
     add_data_to_stack_num(*sn, res);
   }
-  return OK;
+  return return_value;
 }
 
 int str_calc(char *str, double *res) {
@@ -59,19 +69,19 @@ int str_calc(char *str, double *res) {
         return_value = math_operation(&sn, &sc);
       if (return_value == OK)
         sc = pop_stack_ch(sc);
-    } else if (sc && str[n] != '(' && get_rang(str[n]) <= get_rang(sc->data)) {
+    } else if (sc && get_rang(str[n]) > 1 &&
+               get_rang(str[n]) <= get_rang(sc->data)) {
       return_value = math_operation(&sn, &sc);
     } else {
       token_parsing(str, &sn, &sc, &n, &is_unary);
-      printf("n = %d\n", n);
     }
     err++;
   }
   while (sc != 0 && return_value == OK) {
     return_value = math_operation(&sn, &sc);
   }
-  print_stack_ch(sc);
-  print_stack_num(sn);
+  if (return_value != OK)
+    printf("\nERR_CALC\n\n");
   *res = sn->data;
   free_stack_ch(sc);
   free_stack_num(sn);
