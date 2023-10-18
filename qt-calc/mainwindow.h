@@ -19,11 +19,7 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
-    void digits_numbers();
+    void button();
     void on_pushButton_dot_clicked();
-    void operations();
-    void on_pushButton_C_clicked();
-    void on_pushButton_eq_clicked();
-    void math_operations();
-};
+    void on_pushButton_C_clicked();};
 #endif // MAINWINDOW_H

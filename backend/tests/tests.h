@@ -1,6 +1,8 @@
 #ifndef TESTS_H
 #define TESTS_H
 
+#define M_PI 3.14159265358979323846
+
 #include "../src/calculate.h"
 #include "../src/parser.h"
 #include "../src/return_codes.h"
@@ -9,9 +11,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+Suite *test_inpt_validator();
 Suite *test_token_parsing();
 Suite *test_math_operation();
-Suite *test_str_calc();
+Suite *test_calc_expression();
 
 void run_test(Suite *s, int *fail);
 

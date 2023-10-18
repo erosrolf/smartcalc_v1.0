@@ -28,12 +28,15 @@ int math_operation(Stack_num **sn, Stack_ch **sc) {
       res = pow(num_tmp->next->data, num_tmp->data);
     }
     *sn = pop_stack_num(*sn); // иначе смотрим тригонометрические функции
+  } else if (operation->data == '-') { // тут обработка реверского минуса
+    res = num_tmp->data * -1;
   } else if (operation->data == SIN) {
     res = sin(num_tmp->data);
   } else if (operation->data == COS) {
     res = cos(num_tmp->data);
   } else if (operation->data == TAN) {
-    res = tan(num_tmp->data);
+    if (cos(operation->data) == 0)
+      return_value = res = tan(num_tmp->data);
   } else if (operation->data == ACOS) {
     res = acos(num_tmp->data);
   } else if (operation->data == ASIN) {
@@ -55,8 +58,8 @@ int math_operation(Stack_num **sn, Stack_ch **sc) {
   return return_value;
 }
 
-int str_calc(char *str, double *res) {
-  int return_value = OK;
+int calc_expression(char *str, double *res) {
+  int return_value = inpt_validator(str);
   Stack_num *sn = NULL;
   Stack_ch *sc = NULL;
   int is_unary = 1;
@@ -78,10 +81,10 @@ int str_calc(char *str, double *res) {
     err++;
   }
   while (sc != 0 && return_value == OK) {
+    if (sc->data == '(')
+      return_value = ERR;
     return_value = math_operation(&sn, &sc);
   }
-  if (return_value != OK)
-    printf("\nERR_CALC\n\n");
   *res = sn->data;
   free_stack_ch(sc);
   free_stack_num(sn);
