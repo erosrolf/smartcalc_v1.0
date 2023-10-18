@@ -1,5 +1,6 @@
 #include "parser.h"
 #include "return_codes.h"
+#include <endian.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,8 +19,44 @@ static int is_ch(char *s) {
 static int is_func(char *s) {
   return *s == 'c' || *s == 's' || *s == 't' || *s == 'a' || *s == 'l';
 }
+static int minus_is_correct(char *str, int n) {
+  int after = 0, before = 0;
+  after = (is_num(&str[n + 1]) || str[n + 1] == '(' || is_func(&str[n + 1]));
+  if (n)
+    before = (is_num(&str[n - 1]) || str[n - 1] == '(' || str[n - 1] == ')' ||
+              str[n - 1] == '/' || str[n - 1] == '*');
+  else
+    before = 1;
+  // printf("before = %d\n", before);
+  // printf("after = %d\n\n", after);
+  return after && before;
+}
 
-int func_to_ch(char *s, unsigned int *ch_pointer) {
+int inpt_validator(char *str) {
+  int n = 0;
+  int open_br = 0;
+  int close_br = 0;
+  int return_value = OK;
+  while (str[n] != 0x00 && return_value == OK) {
+    if (str[n] == '(')
+      ++open_br;
+    if (str[n] == ')')
+      ++close_br;
+    if (str[n] == '-') {
+      // printf("minus_is_correct = %d\n", minus_is_correct(str, n));
+      if (!minus_is_correct(str, n))
+        return_value = ERR;
+    }
+    ++n;
+  }
+  if (open_br == close_br && return_value == OK)
+    return_value = OK;
+  else
+    return_value = ERR;
+  return return_value;
+}
+
+static int func_to_ch(char *s, unsigned int *ch_pointer) {
   int return_value = 0;
   if (*s == 'c' || *s == 's' || *s == 't') {
     if (s[1] == 'o' && s[2] == 's') {
@@ -69,26 +106,23 @@ int get_rang(char oper) {
 }
 
 /*
- * ch_pointer указывает на символ строки, после выполнения на следующий элемент
- * после операнда
+ * ch_pointer указывает на символ строки *str,
+ * после выполнения на следующий элемент после операнда
  */
-static int str_to_operand(char *str, unsigned int *ch_pointer, char *ch) {
-  int return_value = ERR;
-  if (is_ch(str)) {
-    *ch = *str;
-    *ch_pointer += 1;
-    return_value = get_rang(*str);
-  } else if (is_func(str)) {
-    *ch = func_to_ch(str, ch_pointer);
-    return_value = TOP_RANG;
-  }
-  return return_value;
-}
-
 int operand_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
   int return_value = OK;
   char ch = 0;
-  return_value = str_to_operand(str, ch_pointer, &ch);
+  // если указатель str указывает на символ, парсим его
+  if (is_ch(str)) {
+    ch = *str;
+    *ch_pointer += 1;
+    return_value = get_rang(*str);
+  } else if (is_func(str)) {
+    // если указывает на функцию, парсим функцию
+    ch = func_to_ch(str, ch_pointer);
+    return_value = TOP_RANG;
+  }
+  // если получислось считать символ либо функцию кладем ее в стек
   if (return_value != ERR) {
     *sc = push_stack_ch(*sc);
     add_data_to_stack_ch(*sc, ch);
@@ -97,26 +131,21 @@ int operand_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
 }
 
 /*
- * ch_pointer указатель на символ строки *str, после выполнения указывает на
- * первый элемент после числа
+ * ch_pointer указатель на символ строки *str,
+ * после выполнения указывает на первый элемент после числа
  */
-static int str_to_num(char *str, unsigned int *ch_pointer, double *d,
-                      int *is_unary) {
-  int size = 0;
-  while (is_num(str + size) || *is_unary) {
-    if (*is_unary)
-      *is_unary = 0;
-    ++size;
-  }
-  *d = strtod(str, &str);
-  *ch_pointer += size;
-  return NUM;
-}
-
 int num_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn,
                      int *is_unary) {
+  int return_value = NUM;
   double d = 0;
-  int return_value = str_to_num(str, ch_pointer, &d, is_unary);
+  char *start = str;
+  int size = 0;
+  // узнаем количество числовых символов, чтобы сдвинуть указатель *ch_pointer
+  if (is_num(str) || *is_unary)
+    *is_unary = 0;
+  d = strtod(start, &str); // считываем число
+  size = str - start;
+  *ch_pointer += size;
   *sn = push_stack_num(*sn);
   add_data_to_stack_num(*sn, d);
   return return_value;
