@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>420</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>400</width>
-    <height>420</height>
+    <height>480</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -88,12 +88,290 @@ QPushButton:pressed{
        <property name="bottomMargin">
         <number>20</number>
        </property>
-       <item row="6" column="4">
+       <item row="5" column="3">
+        <widget class="QPushButton" name="pushButton_div">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>/</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="5">
+        <widget class="QPushButton" name="pushButton_acos">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>acos</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QPushButton" name="pushButton_7">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>7</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="3">
+        <widget class="QPushButton" name="pushButton_mul">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>*</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QPushButton" name="pushButton_mod">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>%</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="2">
+        <widget class="QPushButton" name="pushButton_dot">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="5">
+        <widget class="QPushButton" name="pushButton_asin">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>asin</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="4">
+        <widget class="QPushButton" name="pushButton_log">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>log</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="3">
+        <widget class="QPushButton" name="pushButton_sub">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>-</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="3">
+        <widget class="QPushButton" name="pushButton_sum">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>+</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="4">
+        <widget class="QPushButton" name="pushButton_sqrt">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>sqrt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QPushButton" name="pushButton_1">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="QPushButton" name="pushButton_9">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>9</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="3" rowspan="2">
+        <widget class="QPushButton" name="pushButton_eq">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>85</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>=</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_0">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="5">
+        <widget class="QPushButton" name="pushButton_graph">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string/>
+         </property>
+         <property name="text">
+          <string>graph</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="4">
         <widget class="QPushButton" name="pushButton_cos">
          <property name="minimumSize">
           <size>
            <width>50</width>
-           <height>25</height>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -104,12 +382,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="8" column="2">
+       <item row="9" column="2">
         <widget class="QPushButton" name="pushButton_6">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>25</height>
+           <width>45</width>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -120,12 +398,82 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="4" column="4">
+       <item row="7" column="0">
+        <widget class="QPushButton" name="pushButton_C">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="acceptDrops">
+          <bool>false</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: 8px;
+	background-color: rgb(255, 192, 0);
+	border: 1px solid rgb(100, 100,100);
+}
+QPushButton:pressed{
+	border-radius: 8px;
+	background-color: grey;
+	border: 1px solid rgb(100, 100,100);
+}
+</string>
+         </property>
+         <property name="text">
+          <string>C</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="pushButton_pow">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="acceptDrops">
+          <bool>false</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>^</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QPushButton" name="pushButton_br_open">
+         <property name="minimumSize">
+          <size>
+           <width>45</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>(</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="4">
         <widget class="QPushButton" name="pushButton_sin">
          <property name="minimumSize">
           <size>
            <width>50</width>
-           <height>25</height>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -155,6 +503,7 @@ QPushButton:pressed{
          </property>
          <property name="font">
           <font>
+           <family>.AppleSystemUIFont</family>
            <pointsize>18</pointsize>
            <italic>false</italic>
            <kerning>true</kerning>
@@ -188,12 +537,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="8" column="1">
         <widget class="QPushButton" name="pushButton_8">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>25</height>
+           <width>45</width>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -204,60 +553,28 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="6" column="5">
-        <widget class="QPushButton" name="pushButton_acos">
+       <item row="7" column="2">
+        <widget class="QPushButton" name="pushButton_br_close">
          <property name="minimumSize">
           <size>
-           <width>50</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>acos</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QPushButton" name="pushButton_7">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
+           <width>45</width>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>7</string>
+          <string>)</string>
          </property>
         </widget>
        </item>
        <item row="9" column="1">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>2</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
         <widget class="QPushButton" name="pushButton_5">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>25</height>
+           <width>45</width>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -268,12 +585,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="9" column="4">
+       <item row="10" column="4">
         <widget class="QPushButton" name="pushButton_ln">
          <property name="minimumSize">
           <size>
            <width>50</width>
-           <height>25</height>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -284,92 +601,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="10" column="2">
-        <widget class="QPushButton" name="pushButton_dot">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="5">
-        <widget class="QPushButton" name="pushButton_asin">
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>asin</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="4">
-        <widget class="QPushButton" name="pushButton_log">
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>log</string>
-         </property>
-        </widget>
-       </item>
        <item row="8" column="4">
-        <widget class="QPushButton" name="pushButton_sqrt">
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>sqrt</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QPushButton" name="pushButton_1">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="4">
         <widget class="QPushButton" name="pushButton_tan">
          <property name="minimumSize">
           <size>
            <width>50</width>
-           <height>25</height>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -380,12 +617,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="9" column="2">
+       <item row="10" column="2">
         <widget class="QPushButton" name="pushButton_3">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>25</height>
+           <width>45</width>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -396,12 +633,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="7" column="5">
+       <item row="8" column="5">
         <widget class="QPushButton" name="pushButton_atan">
          <property name="minimumSize">
           <size>
            <width>50</width>
-           <height>25</height>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -412,28 +649,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="7" column="2">
-        <widget class="QPushButton" name="pushButton_9">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>9</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
+       <item row="9" column="0">
         <widget class="QPushButton" name="pushButton_4">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>25</height>
+           <width>45</width>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -444,27 +665,35 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_0">
+       <item row="3" column="1" colspan="2">
+        <widget class="QDoubleSpinBox" name="x_inpt">
          <property name="minimumSize">
           <size>
-           <width>30</width>
+           <width>0</width>
            <height>25</height>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string notr="true">QDoubleSpinBox {
+	background-color: #dbdbca;
+}</string>
          </property>
-         <property name="text">
-          <string>0</string>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="minimum">
+          <double>-9999999.990000000223517</double>
+         </property>
+         <property name="maximum">
+          <double>9999999.990000000223517</double>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="3" column="0">
         <widget class="QPushButton" name="pushButton_X">
          <property name="minimumSize">
           <size>
-           <width>30</width>
+           <width>45</width>
            <height>25</height>
           </size>
          </property>
@@ -476,152 +705,12 @@ QPushButton:pressed{
          </property>
         </widget>
        </item>
-       <item row="8" column="5">
-        <widget class="QPushButton" name="pushButton_graph">
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pushButton_AC">
          <property name="minimumSize">
           <size>
-           <width>50</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>graph</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="3">
-        <widget class="QPushButton" name="pushButton_mul">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>*</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="3">
-        <widget class="QPushButton" name="pushButton_sub">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="3">
-        <widget class="QPushButton" name="pushButton_sum">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>+</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="3" rowspan="2">
-        <widget class="QPushButton" name="pushButton_eq">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>65</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>=</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QPushButton" name="pushButton_pow">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="acceptDrops">
-          <bool>false</bool>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>^</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3">
-        <widget class="QPushButton" name="pushButton_div">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string/>
-         </property>
-         <property name="text">
-          <string>/</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QPushButton" name="pushButton_mod">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>%</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QPushButton" name="pushButton_C">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
+           <width>45</width>
+           <height>35</height>
           </size>
          </property>
          <property name="acceptDrops">
@@ -644,39 +733,7 @@ QPushButton:pressed{
 </string>
          </property>
          <property name="text">
-          <string>C</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QPushButton" name="pushButton_br_open">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>(</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
-        <widget class="QPushButton" name="pushButton_br_close">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>)</string>
+          <string>A/C</string>
          </property>
         </widget>
        </item>

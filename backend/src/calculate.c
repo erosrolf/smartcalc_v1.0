@@ -59,13 +59,14 @@ int math_operation(Stack_num **sn, Stack_ch **sc) {
 }
 
 int calc_expression(char *str, double *res) {
-  int return_value = inpt_validator(str);
+  if (inpt_validator(str) != OK)
+    return ERR;
+  int return_value = OK;
   Stack_num *sn = NULL;
   Stack_ch *sc = NULL;
   int is_unary = 1;
   unsigned int n = 0;
-  int err = 0;
-  while (str[n] && return_value == OK && err < 100) {
+  while (str[n] && return_value == OK) {
     if (str[n] == ')') {
       n++;
       while (sc->data != '(' && return_value == OK)
@@ -78,7 +79,6 @@ int calc_expression(char *str, double *res) {
     } else {
       token_parsing(str, &sn, &sc, &n, &is_unary);
     }
-    err++;
   }
   while (sc != 0 && return_value == OK) {
     if (sc->data == '(')

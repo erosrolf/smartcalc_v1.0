@@ -82,6 +82,15 @@ START_TEST(calc_expression_test_09) {
 }
 END_TEST
 
+START_TEST(calc_expression_test_10) {
+  char str[] = "6--6";
+  double res = 0;
+  int return_value = calc_expression(str, &res);
+  ck_assert_double_eq_tol(res, 0, 0.7);
+  ck_assert_int_eq(return_value, ERR);
+}
+END_TEST
+
 Suite *test_calc_expression() {
   Suite *suite = suite_create("calc_expression_suite");
 
@@ -95,6 +104,7 @@ Suite *test_calc_expression() {
   tcase_add_test(tc_calc_expression, calc_expression_test_07);
   tcase_add_test(tc_calc_expression, calc_expression_test_08);
   tcase_add_test(tc_calc_expression, calc_expression_test_09);
+  tcase_add_test(tc_calc_expression, calc_expression_test_10);
   suite_add_tcase(suite, tc_calc_expression);
 
   return suite;

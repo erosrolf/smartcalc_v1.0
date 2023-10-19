@@ -3,6 +3,12 @@
 
 #include <QMainWindow>
 
+extern "C" {
+#include "../backend/src/calculate.h"
+int calc_expression(char *str, double *res);
+}
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -20,6 +26,8 @@ private:
 
 private slots:
     void button();
-    void on_pushButton_dot_clicked();
-    void on_pushButton_C_clicked();};
+    void button_func();
+    void on_pushButton_C_clicked();
+    void on_pushButton_eq_clicked();
+};
 #endif // MAINWINDOW_H

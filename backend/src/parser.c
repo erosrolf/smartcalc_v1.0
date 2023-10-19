@@ -1,6 +1,5 @@
 #include "parser.h"
 #include "return_codes.h"
-#include <endian.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,8 +36,14 @@ int inpt_validator(char *str) {
   int close_br = 0;
   int return_value = OK;
   while (str[n] != 0x00 && return_value == OK) {
-    if (str[n] == '(')
-      ++open_br;
+    if (str[n] == 'e' || str[n] == 'r')
+      return_value = ERR;
+    if (str[n] == '(') {
+      if (str[n + 1] == ')')
+        return_value = ERR;
+      else
+        ++open_br;
+    }
     if (str[n] == ')')
       ++close_br;
     if (str[n] == '-') {
