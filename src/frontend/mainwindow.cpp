@@ -46,22 +46,18 @@ void MainWindow::button_func() {
   ui->display->setText(disp_value);
 }
 
-void MainWindow::on_pushButton_C_clicked() {
-  ui->display->setText("\0");
-}
+void MainWindow::on_pushButton_C_clicked() { ui->display->setText("\0"); }
 
- //double inpt = ui->x_inpt->value();
-void MainWindow::on_pushButton_eq_clicked()
-{
-   QString str = ui->display->text();
-   QByteArray arr = str.toLocal8Bit();
-   char *inpt = arr.data();
-   double res = 0;
-   int ret = calc_expression(inpt, &res);
-   QString result = QString::number(res, 'g', 20);
-   if (ret == 0)
-       ui->display->setText(result);
-   else
-       ui->display->setText("err");
+// double inpt = ui->x_inpt->value();
+void MainWindow::on_pushButton_eq_clicked() {
+  QString str = ui->display->text();
+  QByteArray arr = str.toLocal8Bit();
+  char *inpt = arr.data();
+  double res = 0;
+  int ret = calc_expression(inpt, &res);
+  QString result = QString::number(res, 'g', 20);
+  if (ret == 0)
+    ui->display->setText(result);
+  else
+    ui->display->setText("err");
 }
-
