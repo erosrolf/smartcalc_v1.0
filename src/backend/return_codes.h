@@ -1,6 +1,17 @@
 #ifndef ERR_CODES_H
 #define ERR_CODES_H
-enum error { MEM_ERR = -2, ERR = -1, OK, FEW_ARGS, DIV_BY_ZERO };
+
+enum error {
+  CALC_ERR = -3,
+  MEM_ERR = -2,
+  ERR = -1,
+  OK,
+  FEW_ARGS,
+  DIV_BY_ZERO,
+  TAN_INDEFINED,
+  VALIDATE_ERR
+};
+
 enum parse_code {
   NUM = 0,
   OPEN_BR = 1,
@@ -11,6 +22,7 @@ enum parse_code {
   CLOSE_BR = 6,
   STR_DONE = 7
 };
+
 enum funcs {
   COS = 'c',
   SIN = 's',
@@ -22,4 +34,5 @@ enum funcs {
   LN = 'n',
   LOG = 'g'
 };
-#endif
+
+#endif // ERR_CODES_H

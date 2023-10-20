@@ -67,4 +67,5 @@ void print_stack_num(Stack_num *sn) {
     sn = sn->next;
   }
 }
-#endif
+
+#endif // STACK_C

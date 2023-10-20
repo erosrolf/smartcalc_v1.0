@@ -8,16 +8,18 @@
 #ifndef PARSER_C
 #define PARSER_C
 
-static int is_num(char *s) { return ((*s >= '0') && (*s <= '9')) || *s == '.'; }
+int is_num(char *s) { return ((*s >= '0') && (*s <= '9')) || *s == '.'; }
 
-static int is_ch(char *s) {
-  return *s == '-' || *s == '+' || *s == '*' || *s == '/' || *s == '(' ||
-         *s == ')' || *s == '^';
+int is_ch(char *s) {
+  return *s == '-' || *s == '+' || *s == '*' || *s == '/' || *s == '%' ||
+         *s == '^' || *s == '(' || *s == ')';
 }
 
-static int is_func(char *s) {
+int is_func(char *s) {
   return *s == 'c' || *s == 's' || *s == 't' || *s == 'a' || *s == 'l';
 }
+
+static int is_err(char *s) { return s[0] == 'e' && s[1] == 'r' && s[2] == 'r'; }
 
 static int minus_is_correct(char *str, int n) {
   int after = 0, before = 0;
@@ -30,13 +32,31 @@ static int minus_is_correct(char *str, int n) {
   return after && before;
 }
 
+static int dot_validator(char *str) {
+  int return_value = OK;
+  int dot = 0;
+  int i = 0;
+  while (str[i] != 0x00 && return_value == OK) {
+    if (str[i] == '.' && str[i + 1] == 0x00)
+      return_value = ERR;
+    if (str[i] == '.')
+      dot++;
+    if (!is_num(str))
+      dot = 0;
+    if (dot > 1)
+      return_value = ERR;
+    i++;
+  }
+  return return_value;
+}
+
 int inpt_validator(char *str) {
   int n = 0;
   int open_br = 0;
   int close_br = 0;
-  int return_value = OK;
+  int return_value = dot_validator(str);
   while (str[n] != 0x00 && return_value == OK) {
-    if (str[n] == 'e' || str[n] == 'r')
+    if (is_err(str))
       return_value = ERR;
     if (str[n] == '(') {
       if (str[n + 1] == ')')
@@ -44,8 +64,14 @@ int inpt_validator(char *str) {
       else
         ++open_br;
     }
-    if (str[n] == ')')
-      ++close_br;
+    if (str[n] == ')') {
+      if (!open_br)
+        return_value = ERR;
+      else
+        ++close_br;
+    }
+    if (n && is_func(&str[n]) && is_num(&str[n - 1]))
+      return_value = ERR;
     if (str[n] == '-') {
       if (!minus_is_correct(str, n))
         return_value = ERR;
@@ -90,7 +116,6 @@ static int func_to_ch(char *s, unsigned int *ch_pointer) {
   return return_value;
 }
 
-// возвращает преоритет операции
 int get_rang(char oper) {
   int return_value = NUM;
   if (oper == '(')
@@ -108,24 +133,17 @@ int get_rang(char oper) {
   return return_value;
 }
 
-/*
- * ch_pointer указывает на символ строки *str,
- * после выполнения на следующий элемент после операнда
- */
 int operand_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
   int return_value = OK;
   char ch = 0;
-  // если указатель str указывает на символ, парсим его
   if (is_ch(str)) {
     ch = *str;
     *ch_pointer += 1;
     return_value = get_rang(*str);
   } else if (is_func(str)) {
-    // если указывает на функцию, парсим функцию
     ch = func_to_ch(str, ch_pointer);
     return_value = TOP_RANG;
   }
-  // если получислось считать символ либо функцию кладем ее в стек
   if (return_value != ERR) {
     *sc = push_stack_ch(*sc);
     add_data_to_stack_ch(*sc, ch);
@@ -133,39 +151,28 @@ int operand_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
   return return_value;
 }
 
-/*
- * ch_pointer указатель на символ строки *str,
- * после выполнения указывает на первый элемент после числа
- */
 int num_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn,
                      int *is_unary) {
   int return_value = NUM;
   double d = 0;
   char *start = str;
-  int size = 0;
-  // узнаем количество числовых символов, чтобы сдвинуть указатель *ch_pointer
   if (is_num(str) || *is_unary)
     *is_unary = 0;
-  d = strtod(start, &str); // считываем число
-  size = str - start;
-  *ch_pointer += size;
+  d = strtod(start, &str);
+  *ch_pointer += str - start;
   *sn = push_stack_num(*sn);
   add_data_to_stack_num(*sn, d);
   return return_value;
 }
 
-/*
- * расшифровывает из строки одну лекслему, на которую указывает ch_pointer
- * закидывает ее в соответствующий стек и возвращает: get_rang(char oper);
- * при ошибке возвращает -1
- * возвращающие коды можно посмотреть return_codes.h
- */
+// parse any lexlem and push to correct type stack
 int token_parsing(char *str, Stack_num **sn, Stack_ch **sc,
                   unsigned int *ch_pointer, int *is_unary) {
   if (str[*ch_pointer] == 0x00)
     return STR_DONE;
   int return_value = OK;
-  if (is_num(str + *ch_pointer) || (str[*ch_pointer] == '-' && *is_unary)) {
+  if (is_num(str + *ch_pointer) || (str[*ch_pointer] == '-' && *is_unary) ||
+      (str[*ch_pointer] == '+' && *is_unary)) {
     return_value =
         num_to_num_stack(str + *ch_pointer, ch_pointer, sn, is_unary);
   } else if (is_ch(str + *ch_pointer) || is_func(str + *ch_pointer)) {
@@ -176,4 +183,4 @@ int token_parsing(char *str, Stack_num **sn, Stack_ch **sc,
   return return_value;
 }
 
-#endif
+#endif // PARSER_C

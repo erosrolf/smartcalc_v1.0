@@ -3,10 +3,10 @@
 
 #define M_PI 3.14159265358979323846
 
-#include "../src/calculate.h"
-#include "../src/parser.h"
-#include "../src/return_codes.h"
-#include "../src/stack.h"
+#include "../src/backend/calculate.h"
+#include "../src/backend/parser.h"
+#include "../src/backend/return_codes.h"
+#include "../src/backend/stack.h"
 #include <check.h>
 #include <stdio.h>
 #include <stdlib.h>

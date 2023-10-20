@@ -7,4 +7,4 @@
 int math_operation(Stack_num **sn, Stack_ch **sc);
 int calc_expression(char *str, double *res);
 
-#endif
+#endif // CALCULATE_H

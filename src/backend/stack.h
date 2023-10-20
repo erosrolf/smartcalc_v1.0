@@ -22,4 +22,4 @@ void free_stack_num(Stack_num *sn);
 void print_stack_ch(Stack_ch *sc);
 void print_stack_num(Stack_num *sn);
 
-#endif
+#endif // STACK_H

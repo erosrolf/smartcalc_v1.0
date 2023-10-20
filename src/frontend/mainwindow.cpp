@@ -26,6 +26,12 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->pushButton_sin, SIGNAL(clicked()), this, SLOT(button_func()));
   connect(ui->pushButton_cos, SIGNAL(clicked()), this, SLOT(button_func()));
   connect(ui->pushButton_tan, SIGNAL(clicked()), this, SLOT(button_func()));
+  connect(ui->pushButton_asin, SIGNAL(clicked()), this, SLOT(button_func()));
+  connect(ui->pushButton_acos, SIGNAL(clicked()), this, SLOT(button_func()));
+  connect(ui->pushButton_atan, SIGNAL(clicked()), this, SLOT(button_func()));
+  connect(ui->pushButton_sqrt, SIGNAL(clicked()), this, SLOT(button_func()));
+  connect(ui->pushButton_ln, SIGNAL(clicked()), this, SLOT(button_func()));
+  connect(ui->pushButton_log, SIGNAL(clicked()), this, SLOT(button_func()));
 }
 
 MainWindow::~MainWindow() { delete ui; }
