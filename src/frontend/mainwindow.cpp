@@ -67,3 +67,9 @@ void MainWindow::on_pushButton_eq_clicked() {
   else
     ui->display->setText("err");
 }
+
+void MainWindow::on_pushButton_graph_clicked()
+{
+   graph.show();
+}
+

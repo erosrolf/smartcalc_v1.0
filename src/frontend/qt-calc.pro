@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui printsupport
 QT	 += widgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,16 +12,21 @@ SOURCES += \
     ../backend/calculate.c \
     ../backend/parser.c \
     ../backend/stack.c \
+    graph.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
     ../backend/calculate.h \
     ../backend/parser.h \
     ../backend/stack.h \
-    mainwindow.h
+    graph.h \
+    mainwindow.h \
+    qcustomplot.h
 
 FORMS += \
+    graph.ui \
     mainwindow.ui
 
 # Default rules for deployment.

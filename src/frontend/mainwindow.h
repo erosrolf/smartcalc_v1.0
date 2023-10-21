@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <graph.h>
+#include <QVector>
 
 extern "C" {
 #include "../backend/calculate.h"
@@ -23,11 +25,13 @@ public:
 
 private:
   Ui::MainWindow *ui;
+  Graph graph;
 
 private slots:
   void button();
   void button_func();
   void on_pushButton_C_clicked();
   void on_pushButton_eq_clicked();
+  void on_pushButton_graph_clicked();
 };
 #endif // MAINWINDOW_H
