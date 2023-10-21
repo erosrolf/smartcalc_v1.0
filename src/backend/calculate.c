@@ -59,7 +59,6 @@ int math_operation(Stack_num **sn, Stack_ch **sc) {
     res = log10(num_tmp->data);
   } else {
     return_value = CALC_ERR;
-    fprintf(stderr, "CALC_ERR, operation = %c\n", operation->data);
   }
   if (return_value == OK) {
     *sc = pop_stack_ch(*sc);
@@ -68,9 +67,8 @@ int math_operation(Stack_num **sn, Stack_ch **sc) {
   return return_value;
 }
 
-int calc_expression(char *str, double *res) {
+int calc_expression(char *str, double *res, double x) {
   if (inpt_validator(str) != OK) {
-    fprintf(stderr, "%s", "incorrect expression\n");
     return VALIDATE_ERR;
   }
   int return_value = OK;
@@ -86,12 +84,12 @@ int calc_expression(char *str, double *res) {
       if (return_value == OK)
         sc = pop_stack_ch(sc);
     } else if (str[n] > 'a' && str[n] < 'z') {
-      token_parsing(str, &sn, &sc, &n, &is_unary);
+      token_parsing(str, &sn, &sc, &n, &is_unary, x);
     } else if (sc && n && get_rang(str[n]) > 1 &&
                get_rang(str[n]) <= get_rang(sc->data)) {
       return_value = math_operation(&sn, &sc);
     } else {
-      token_parsing(str, &sn, &sc, &n, &is_unary);
+      token_parsing(str, &sn, &sc, &n, &is_unary, x);
     }
   }
   while (sc != 0 && return_value == OK) {

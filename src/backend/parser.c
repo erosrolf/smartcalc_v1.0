@@ -23,7 +23,8 @@ static int is_err(char *s) { return s[0] == 'e' && s[1] == 'r' && s[2] == 'r'; }
 
 static int minus_is_correct(char *str, int n) {
   int after = 0, before = 0;
-  after = (is_num(&str[n + 1]) || str[n + 1] == '(' || is_func(&str[n + 1]));
+  after = (is_num(&str[n + 1]) || str[n + 1] == 'X' || str[n + 1] == '(' ||
+           is_func(&str[n + 1]));
   if (n)
     before = (is_num(&str[n - 1]) || str[n - 1] == '(' || str[n - 1] == ')' ||
               str[n - 1] == '/' || str[n - 1] == '*');
@@ -76,6 +77,10 @@ int inpt_validator(char *str) {
       if (!minus_is_correct(str, n))
         return_value = ERR;
     }
+    if (str[n] == 'X' && (str[n + 1] == 'X' || is_num(&str[n + 1])))
+      return_value = ERR;
+    if (n && str[n] == 'X' && is_num(&str[n - 1]))
+      return_value = ERR;
     ++n;
   }
   if (open_br == close_br && return_value == OK)
@@ -152,14 +157,21 @@ int operand_to_ch_stack(char *str, unsigned int *ch_pointer, Stack_ch **sc) {
 }
 
 int num_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn,
-                     int *is_unary) {
+                     int *is_unary, double x) {
   int return_value = NUM;
   double d = 0;
   char *start = str;
-  if (is_num(str) || *is_unary)
-    *is_unary = 0;
-  d = strtod(start, &str);
-  *ch_pointer += str - start;
+  if (*str == '-' && *is_unary && str[1] == 'X') {
+    d = x * -1;
+    *ch_pointer += 2;
+  } else if (*str == 'X') {
+    d = x;
+    *ch_pointer += 1;
+  } else {
+    d = strtod(start, &str);
+    *ch_pointer += str - start;
+  }
+  *is_unary = 0;
   *sn = push_stack_num(*sn);
   add_data_to_stack_num(*sn, d);
   return return_value;
@@ -167,14 +179,15 @@ int num_to_num_stack(char *str, unsigned int *ch_pointer, Stack_num **sn,
 
 // parse any lexlem and push to correct type stack
 int token_parsing(char *str, Stack_num **sn, Stack_ch **sc,
-                  unsigned int *ch_pointer, int *is_unary) {
+                  unsigned int *ch_pointer, int *is_unary, double x) {
   if (str[*ch_pointer] == 0x00)
     return STR_DONE;
   int return_value = OK;
-  if (is_num(str + *ch_pointer) || (str[*ch_pointer] == '-' && *is_unary) ||
+  if (is_num(str + *ch_pointer) || str[*ch_pointer] == 'X' ||
+      (str[*ch_pointer] == '-' && *is_unary) ||
       (str[*ch_pointer] == '+' && *is_unary)) {
     return_value =
-        num_to_num_stack(str + *ch_pointer, ch_pointer, sn, is_unary);
+        num_to_num_stack(str + *ch_pointer, ch_pointer, sn, is_unary, x);
   } else if (is_ch(str + *ch_pointer) || is_func(str + *ch_pointer)) {
     if (str[*ch_pointer] == '(')
       *is_unary = 1;

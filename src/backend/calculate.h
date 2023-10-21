@@ -5,6 +5,6 @@
 #define CALCULATE_H
 
 int math_operation(Stack_num **sn, Stack_ch **sc);
-int calc_expression(char *str, double *res);
+int calc_expression(char *str, double *res, double x);
 
 #endif // CALCULATE_H
