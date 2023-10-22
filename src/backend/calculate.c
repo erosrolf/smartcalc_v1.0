@@ -71,33 +71,38 @@ int calc_expression(char *str, double *res, double x) {
   if (inpt_validator(str) != OK) {
     return VALIDATE_ERR;
   }
+
   int return_value = OK;
   Stack_num *sn = NULL;
   Stack_ch *sc = NULL;
   int is_unary = 1;
   unsigned int n = 0;
-  while (str[n] && return_value == OK) {
-    if (str[n] == ')') {
-      n++;
-      while (sc->data != '(' && return_value == OK)
+  if (str[0] == 0x00)
+    *res = 0;
+  else {
+    while (str[n] && return_value == OK) {
+      if (str[n] == ')') {
+        n++;
+        while (sc->data != '(' && return_value == OK)
+          return_value = math_operation(&sn, &sc);
+        if (return_value == OK)
+          sc = pop_stack_ch(sc);
+      } else if (str[n] > 'a' && str[n] < 'z') {
+        token_parsing(str, &sn, &sc, &n, &is_unary, x);
+      } else if (sc && n && get_rang(str[n]) > 1 &&
+                 get_rang(str[n]) <= get_rang(sc->data)) {
         return_value = math_operation(&sn, &sc);
-      if (return_value == OK)
-        sc = pop_stack_ch(sc);
-    } else if (str[n] > 'a' && str[n] < 'z') {
-      token_parsing(str, &sn, &sc, &n, &is_unary, x);
-    } else if (sc && n && get_rang(str[n]) > 1 &&
-               get_rang(str[n]) <= get_rang(sc->data)) {
-      return_value = math_operation(&sn, &sc);
-    } else {
-      token_parsing(str, &sn, &sc, &n, &is_unary, x);
+      } else {
+        token_parsing(str, &sn, &sc, &n, &is_unary, x);
+      }
     }
+    while (sc != 0 && return_value == OK) {
+      return_value = math_operation(&sn, &sc);
+    }
+    *res = sn->data;
+    free_stack_ch(sc);
+    free_stack_num(sn);
   }
-  while (sc != 0 && return_value == OK) {
-    return_value = math_operation(&sn, &sc);
-  }
-  *res = sn->data;
-  free_stack_ch(sc);
-  free_stack_num(sn);
   return return_value;
 }
 

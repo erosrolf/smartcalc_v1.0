@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->pushButton_7, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(button()));
+  connect(ui->pushButton_X, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_dot, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_sum, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_sub, SIGNAL(clicked()), this, SLOT(button()));
@@ -54,13 +55,13 @@ void MainWindow::button_func() {
 
 void MainWindow::on_pushButton_C_clicked() { ui->display->setText("\0"); }
 
-// double inpt = ui->x_inpt->value();
 void MainWindow::on_pushButton_eq_clicked() {
+  double x = ui->x_inpt->value();
   QString str = ui->display->text();
   QByteArray arr = str.toLocal8Bit();
   char *inpt = arr.data();
   double res = 0;
-  int ret = calc_expression(inpt, &res);
+  int ret = calc_expression(inpt, &res, x);
   QString result = QString::number(res, 'g', 20);
   if (ret == 0)
     ui->display->setText(result);

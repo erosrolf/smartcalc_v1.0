@@ -7,7 +7,7 @@
 
 extern "C" {
 #include "../backend/calculate.h"
-int calc_expression(char *str, double *res);
+int calc_expression(char *str, double *res, double x);
 }
 
 QT_BEGIN_NAMESPACE

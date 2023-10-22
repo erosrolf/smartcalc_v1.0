@@ -3,6 +3,11 @@
 
 #include <QWidget>
 
+extern "C" {
+#include "../backend/calculate.h"
+int calc_expression(char *str, double *res, double x);
+}
+
 namespace Ui {
 class Graph;
 }
