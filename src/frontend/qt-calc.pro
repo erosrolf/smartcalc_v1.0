@@ -12,7 +12,6 @@ SOURCES += \
     ../backend/calculate.c \
     ../backend/parser.c \
     ../backend/stack.c \
-    graph.cpp \
     main.cpp \
     mainwindow.cpp \
     qcustomplot.cpp
@@ -21,12 +20,10 @@ HEADERS += \
     ../backend/calculate.h \
     ../backend/parser.h \
     ../backend/stack.h \
-    graph.h \
     mainwindow.h \
     qcustomplot.h
 
 FORMS += \
-    graph.ui \
     mainwindow.ui
 
 # Default rules for deployment.

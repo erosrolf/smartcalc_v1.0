@@ -4,6 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+  ui->widget_2->setBackground(QColor(232,228,216,150));
   connect(ui->pushButton_0, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_1, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(button()));
@@ -71,6 +72,27 @@ void MainWindow::on_pushButton_eq_clicked() {
 
 void MainWindow::on_pushButton_graph_clicked()
 {
-   graph.show();
-}
+    ui->widget_2->addGraph();
+    ui->widget_2->graph(0)->setLineStyle(QCPGraph::lsLine);
+    ui->widget_2->xAxis->setLabel("x");
+    ui->widget_2->yAxis->setLabel("-<");
 
+    ui->widget_2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+
+  QString str = ui->display->text();
+  QByteArray arr = str.toLocal8Bit();
+  char *inpt = arr.data();
+
+    double xVal[21] = {-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    double yVal[21];
+    for (int i = 0; i < 21; i++){
+      calc_expression(inpt, &yVal[i], xVal[i]);
+    }
+    QVector<double> x(std::begin(xVal), std::end(xVal));
+    QVector<double> y(std::begin(yVal), std::end(yVal));
+
+    ui->widget_2->graph(0)->setData(x, y);
+    ui->widget_2->rescaleAxes();
+    ui->widget_2->replot();
+    ui->widget_2->update();
+}

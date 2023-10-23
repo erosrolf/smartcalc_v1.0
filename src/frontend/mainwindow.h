@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <graph.h>
 #include <QVector>
+#include <qcustomplot.h>
 
 extern "C" {
 #include "../backend/calculate.h"
@@ -25,7 +25,6 @@ public:
 
 private:
   Ui::MainWindow *ui;
-  Graph graph;
 
 private slots:
   void button();
