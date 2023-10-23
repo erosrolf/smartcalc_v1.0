@@ -12,13 +12,12 @@ namespace Ui {
 class Graph;
 }
 
-class Graph : public QWidget
-{
-    Q_OBJECT
+class Graph : public QWidget {
+  Q_OBJECT
 
 public:
-    explicit Graph(QWidget *parent = nullptr);
-    ~Graph();
+  explicit Graph(QWidget *parent = nullptr);
+  ~Graph();
 
 private:
   Ui::Graph *ui;
@@ -26,7 +25,6 @@ private:
   int dotCount;
 
   QVector<double> x, y;
-
 };
 
 #endif // GRAPH_H

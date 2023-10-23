@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-  ui->widget_2->setBackground(QColor(232,228,216,150));
+  ui->widget_2->setBackground(QColor(232, 228, 216, 150));
   connect(ui->pushButton_0, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_1, SIGNAL(clicked()), this, SLOT(button()));
   connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(button()));
@@ -70,50 +70,48 @@ void MainWindow::on_pushButton_eq_clicked() {
     ui->display->setText("err");
 }
 
-void MainWindow::on_pushButton_graph_clicked()
-{
-    ui->widget_2->addGraph();
-    ui->widget_2->graph(0)->setLineStyle(QCPGraph::lsLine);
-    ui->widget_2->xAxis->setLabel("x");
-    ui->widget_2->yAxis->setLabel("-<");
+void MainWindow::on_pushButton_graph_clicked() {
+  ui->widget_2->addGraph();
+  ui->widget_2->graph(0)->setLineStyle(QCPGraph::lsLine);
+  ui->widget_2->xAxis->setLabel("x");
+  ui->widget_2->yAxis->setLabel("-<");
 
-    ui->widget_2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+  ui->widget_2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom |
+                                QCP::iSelectPlottables);
 
-    QString str = ui->display->text();
-    QByteArray arr = str.toLocal8Bit();
-    char *inpt = arr.data();
+  QString str = ui->display->text();
+  QByteArray arr = str.toLocal8Bit();
+  char *inpt = arr.data();
 
-    double h = 0.5;
-    if(ui->x_min->value() < -10000 && ui->x_max->value() > 10000){
-        h = 50;
-    };
-    double xBegin = ui->x_min->value();
-    double xEnd = ui->x_max->value();
+  double h = 0.5;
+  if (ui->x_min->value() < -10000 && ui->x_max->value() > 10000) {
+    h = 50;
+  };
+  double xBegin = ui->x_min->value();
+  double xEnd = ui->x_max->value();
 
-    //double N = (xEnd - xBegin)/h + 2;
+  // double N = (xEnd - xBegin)/h + 2;
 
-    QVector<double>x, y;
-    double res = 0;
+  QVector<double> x, y;
+  double res = 0;
 
-    for (double i = xBegin; i<= xEnd; i+= h) {
-        x.push_back(i);
-        calc_expression(inpt, &res, i);
-        y.push_back(res);
+  for (double i = xBegin; i <= xEnd; i += h) {
+    x.push_back(i);
+    calc_expression(inpt, &res, i);
+    y.push_back(res);
+  }
 
-    }
+  /*
+  double xVal[21] = {-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5,
+  6, 7, 8, 9, 10}; double yVal[21]; for (int i = 0; i < 21; i++){
+    calc_expression(inpt, &yVal[i], xVal[i]);
+  }
+  QVector<double> x(std::begin(xVal), std::end(xVal));
+  QVector<double> y(std::begin(yVal), std::end(yVal));
+  */
 
-    /*
-    double xVal[21] = {-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    double yVal[21];
-    for (int i = 0; i < 21; i++){
-      calc_expression(inpt, &yVal[i], xVal[i]);
-    }
-    QVector<double> x(std::begin(xVal), std::end(xVal));
-    QVector<double> y(std::begin(yVal), std::end(yVal));
-    */
-
-    ui->widget_2->graph(0)->setData(x, y);
-    ui->widget_2->rescaleAxes();
-    ui->widget_2->replot();
-    ui->widget_2->update();
+  ui->widget_2->graph(0)->setData(x, y);
+  ui->widget_2->rescaleAxes();
+  ui->widget_2->replot();
+  ui->widget_2->update();
 }

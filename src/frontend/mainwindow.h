@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <graph.h>
 #include <QVector>
+#include <graph.h>
 #include <qcustomplot.h>
 
 extern "C" {
